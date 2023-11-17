@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Email Validation</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='wmmd.css') }}"  type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica+SC&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+   
+</head>
+
+<body>
+    <h1 class="header">Mass Mail Dispatcher</h1>
+    <img class="plane" src="https://www.pngall.com/wp-content/uploads/12/Paper-Plane-Fly-PNG-Picture.png">
+    <hr class="divide">
+
+    <h2>Email Validation</h2>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data" class="butt">
+        <label for="csvFile">CSV File:</label>
+        <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+        <input type="submit" value="Upload">
+        <br>
+    </form>
+
+    <div class="toggle-container">
+        {% if valid_emails %}
+            <h3>Valid Email Addresses</h3>
+            <input type="checkbox" id="valid-toggle" class="toggle-checkbox">
+            <label for="valid-toggle" class="toggle-label"><i>View</i></label>
+            <ul class="toggle-content">
+                {% for email in valid_emails %}
+                    <p>{{ email }}</p>
+                {% endfor %}
+            </ul>  
+        </div>
+    {% endif %}
+    
+    <div class="toggle-container">
+        {% if invalid_emails %}
+            <h3>Invalid Email Addresses</h3>
+            <input type="checkbox" id="invalid-toggle" class="toggle-checkbox">
+            <label for="invalid-toggle" class="toggle-label"><i>View</i></label>
+            <ul class="toggle-content">
+                {% for email in invalid_emails %}
+                    <p>{{ email }}</p>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <hr class="divide">
+
+    <h2>Details of Mail</h2>
+    <p></p>
+
+    <form action="/send-emails" method="POST" class="butt" enctype="multipart/form-data">
+        <input type="hidden" name="csvFilename" value="{{ csv_filename }}">
+        <label for="emailUser">Email ID:</label>
+        <input type="email" id="emailUser" name="emailUser" required>
+        <br><br>
+        <label for="emailPassword">Password:</label>
+        <input type="password" id="emailPassword" name="emailPassword" required>
+        <br><br>
+        <label for="emailSubject">Subject:</label>
+        <input type="text" id="emailSubject" name="emailSubject" required>
+        <br><br>
+        <label for="emailBody">Body:</label>
+        <textarea id="emailBody" name="emailBody" required class="body"></textarea>
+        <label for="emailAttachment">Media Attachment:</label>
+        <input type="file" id="emailAttachment" name="emailAttachment" class="attachment">
+        <br><br>
+        <input type="submit" value="Send Email">
+    </form>
+    
+</body>
+</html>
